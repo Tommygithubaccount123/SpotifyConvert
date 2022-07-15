@@ -1,3 +1,4 @@
 SpotifyCredentials.py
 .cache
 __pycache__
+.gitignore
