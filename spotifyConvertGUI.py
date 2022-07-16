@@ -79,6 +79,7 @@ class ConverterWindow(tk.Tk):
                 messagebox.showinfo("Done","Finished downloading playlist")
             except:
                 messagebox.showerror("ERROR","URL did not work")
+                return -1
             if (len(failed_songs)==0):
                 return 1
             else:

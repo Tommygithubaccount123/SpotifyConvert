@@ -21,12 +21,16 @@ def download_video(url, file_destination, type):
         print("TOO LONG:",yt.title,"Length",length(yt.length))
         return -1
 
-    if (type == 0):
-        stream = yt.streams.get_highest_resolution()
-    else:
-        stream = yt.streams.get_audio_only()
-    print("\nVideo downloaded in", stream.download(output_path=file_destination))
-    return 1
+    try:
+        if (type == 0):
+            stream = yt.streams.get_highest_resolution()
+        else:
+            stream = yt.streams.get_audio_only()
+        print("\nVideo downloaded in", stream.download(output_path=file_destination))
+        return 1
+    except:
+        print("FAILED to get stream")
+        return -1
 
 def menu():
     print("Options:")
