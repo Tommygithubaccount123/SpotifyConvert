@@ -44,4 +44,4 @@ if __name__ == "__main__":
     sp1 = SpotifyClass(credentials_manager)
     #print(sp1.getPlaylistTracks(playlistURL))
     #print(len(sp1.getPlaylistTracks("https://open.spotify.com/playlist/2MavGhMNxUBbCP0CGOVFmg?si=96343331662b45c4")))
-    print(sp1.getPlaylistTracks("wasd"))
+    print(sp1.getPlaylistTracks("wasd"))    

@@ -46,6 +46,7 @@ def download_playlist(url, file_destination, type):
         with concurrent.futures.ThreadPoolExecutor() as executor:
             for i in list_of_URL:
                 executor.submit(download_video,i,file_destination,type)
+                
 
 if __name__ == "__main__":
     start = menu()
