@@ -1,22 +1,19 @@
-import traceback
-import SpotifyCredentials
-import spotipy
+import SpotifyCredentials, spotipy, concurrent.futures, converter
 from spotipy.oauth2 import SpotifyClientCredentials
+from youtubesearchpython import VideosSearch
 
 #authenticate without user, pull credentials from other file
 credentials_manager = SpotifyClientCredentials(client_id=SpotifyCredentials.client_id,
 client_secret=SpotifyCredentials.client_secret)
 
-#sp = spotipy.Spotify(client_credentials_manager=credentials_manager)
-
-playlistURL = "https://open.spotify.com/playlist/37i9dQZF1DXdQP3bGyOAvs?si=dce5cfef7a964b17"
-playlist_URI = playlistURL.split("/")[-1].split("?")[0]
+#playlistURL = "https://open.spotify.com/playlist/37i9dQZF1DXdQP3bGyOAvs?si=dce5cfef7a964b17"
+#playlist_URI = playlistURL.split("/")[-1].split("?")[0]
 
 class SpotifyClass(spotipy.Spotify):
     def __init__(self,id):
         super().__init__(client_credentials_manager=id)
 
-    def getPlaylistTracks(self,URL): 
+    def getPlaylistTracks(self,URL: str) -> list: 
         '''input Spotify URL, outputs a list of songs in (songName by songArtist)'''
         try:
             results = self.playlist_tracks(URL) #results
@@ -34,14 +31,35 @@ class SpotifyClass(spotipy.Spotify):
                 songName = Track["track"]["name"]
                 songArtist = Track["track"]["album"]["artists"][0]["name"]
                 #print(songName,"by",songArtist)
-                songNameList.append(songName+" by "+songArtist)
+                songNameList.append(songName+" by "+songArtist+" audio")
             except:
                 print("ERROR: Couldn't find songName or songArtist")
         return songNameList
         
+def convertsongsURL(url: str) -> tuple:
+    '''input spotify playlist url, returns tuple of (list of youtube urls, list of failed tracks)'''
+    output = []
+    failed_links = []
+    SpotObj = SpotifyClass(credentials_manager)
+    tracks = SpotObj.getPlaylistTracks(url)
+    x = 1
+    for i in tracks:
+        try:
+            videoResults = VideosSearch(i,limit=1)
+            output.append(videoResults.result()["result"][0]["link"])
+            print(f"{x}. Found Youtube link for", i)
+        except:
+            failed_links.append(i)
+            print(f"{x}. Did not find link for", i)
+        x += 1
+    return (output,failed_links)
 
-if __name__ == "__main__":
-    sp1 = SpotifyClass(credentials_manager)
-    #print(sp1.getPlaylistTracks(playlistURL))
-    #print(len(sp1.getPlaylistTracks("https://open.spotify.com/playlist/2MavGhMNxUBbCP0CGOVFmg?si=96343331662b45c4")))
-    print(sp1.getPlaylistTracks("wasd"))    
+def downloadTRACKS(spotifyURL: str,folder_path="C:\\Users\\stink\\Downloads"):
+    '''input spotify playlist URL and folder_path, downloads tracks'''
+    (valid_tracks, failed_tracks) =  convertsongsURL(spotifyURL)
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        for i in valid_tracks:
+            executor.submit(converter.download_video,i,folder_path,1)
+
+if __name__ == "__main__": 
+    downloadTRACKS("https://open.spotify.com/playlist/1bEut5XwCWU0IRMy8Wp6OH?si=6cf2f14fa7bf460a")
