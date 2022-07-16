@@ -7,7 +7,7 @@ def length(duration):
 
 def download_video(url, file_destination, type):
     '''input url and destination, downloads video
-    download_video(url, file_destination, type 0=video 1=audio)
+    download_video(url, file_destination, type 0=video 1=audio), returns -1 if error
     '''
     try:
         yt = YouTube(url)
@@ -15,11 +15,18 @@ def download_video(url, file_destination, type):
         print("ERROR: Link did not work")
         return -1
     print("\nVideo found:",yt.title,"Length:", length(yt.length),"Views:",yt.views)
+    
+    #length check:
+    if (yt.length/3600.0 > 1.0):
+        print("TOO LONG:",yt.title,"Length",length(yt.length))
+        return -1
+
     if (type == 0):
         stream = yt.streams.get_highest_resolution()
     else:
         stream = yt.streams.get_audio_only()
     print("\nVideo downloaded in", stream.download(output_path=file_destination))
+    return 1
 
 def menu():
     print("Options:")

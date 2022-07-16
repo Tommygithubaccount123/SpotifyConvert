@@ -54,12 +54,13 @@ def convertsongsURL(url: str) -> tuple:
         x += 1
     return (output,failed_links)
 
-def downloadTRACKS(spotifyURL: str,folder_path="C:\\Users\\stink\\Downloads"):
-    '''input spotify playlist URL and folder_path, downloads tracks'''
+def downloadTRACKS(spotifyURL: str,folder_path: str) -> list:
+    '''input spotify playlist URL and folder_path, downloads tracks, returns failed songs'''
     (valid_tracks, failed_tracks) =  convertsongsURL(spotifyURL)
     with concurrent.futures.ThreadPoolExecutor() as executor:
         for i in valid_tracks:
-            executor.submit(converter.download_video,i,folder_path,1)
-
+            if (executor.submit(converter.download_video,i,folder_path,1).result()==-1):
+                failed_tracks.append(i)
+    return failed_tracks
 if __name__ == "__main__": 
     downloadTRACKS("https://open.spotify.com/playlist/1bEut5XwCWU0IRMy8Wp6OH?si=6cf2f14fa7bf460a")
