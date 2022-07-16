@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox, filedialog
 
-from anyio import fail_after
 import SpotifyPlaylist, converter
 
 class ConverterWindow(tk.Tk):
