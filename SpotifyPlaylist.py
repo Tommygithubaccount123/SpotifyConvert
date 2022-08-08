@@ -59,8 +59,9 @@ def downloadTRACKS(spotifyURL: str,folder_path: str) -> list:
     (valid_tracks, failed_tracks) =  convertsongsURL(spotifyURL)
     with concurrent.futures.ThreadPoolExecutor() as executor:
         for i in valid_tracks:
-            if (executor.submit(converter.download_video,i,folder_path,1).result()==-1):
-                failed_tracks.append(i)
+            # if (executor.submit(converter.download_video,i,folder_path,1).result()==-1): #KEEP COMMENTED, DOES NOT ALLOW PARALLEL TASKS
+            #     failed_tracks.append(i) 
+            executor.submit(converter.download_video,i,folder_path,1)
     return failed_tracks
 if __name__ == "__main__": 
     downloadTRACKS("https://open.spotify.com/playlist/1bEut5XwCWU0IRMy8Wp6OH?si=6cf2f14fa7bf460a")

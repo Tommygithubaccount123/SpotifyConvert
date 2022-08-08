@@ -14,7 +14,8 @@ def download_video(url, file_destination, type):
     except:
         print("ERROR: Link did not work")
         return -1
-    print("\nVideo found:",yt.title,"Length:", length(yt.length),"Views:",yt.views)
+    # print("\nVideo found:",yt.title,"Length:", length(yt.length),"Views:",yt.views)
+    print(yt.title)
     
     #length check:
     if (yt.length/3600.0 > 1.0):
@@ -26,7 +27,8 @@ def download_video(url, file_destination, type):
             stream = yt.streams.get_highest_resolution()
         else:
             stream = yt.streams.get_audio_only()
-        print("\nVideo downloaded in", stream.download(output_path=file_destination))
+        # print("\nVideo downloaded in", stream.download(output_path=file_destination))
+        print(stream.download(output_path=file_destination))
         return 1
     except:
         print("FAILED to get stream")
