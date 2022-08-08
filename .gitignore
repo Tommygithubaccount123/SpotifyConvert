@@ -1,4 +1,4 @@
 SpotifyCredentials.py
 .cache
 __pycache__
-.gitignore
+my_env
