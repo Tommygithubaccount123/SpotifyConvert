@@ -35,24 +35,41 @@ class SpotifyClass(spotipy.Spotify):
             except:
                 print("ERROR: Couldn't find songName or songArtist")
         return songNameList
-        
+
+output = []
+failed_links = []    
 def convertsongsURL(url: str) -> tuple:
     '''input spotify playlist url, returns tuple of (list of youtube urls, list of failed tracks)'''
-    output = []
-    failed_links = []
+    # output = []
+    # failed_links = []
     SpotObj = SpotifyClass(credentials_manager)
     tracks = SpotObj.getPlaylistTracks(url)
-    x = 1
-    for i in tracks:
-        try:
-            videoResults = VideosSearch(i,limit=1)
-            output.append(videoResults.result()["result"][0]["link"])
-            print(f"{x}. Found Youtube link for", i)
-        except:
-            failed_links.append(i)
-            print(f"{x}. Did not find link for", i)
-        x += 1
+
+    # x = 1
+    # for i in tracks:
+    #     try:
+    #         videoResults = VideosSearch(i,limit=1)
+    #         output.append(videoResults.result()["result"][0]["link"])
+    #         print(f"{x}. Found Youtube link for", i)
+    #     except:
+    #         failed_links.append(i)
+    #         print(f"{x}. Did not find link for", i)
+    #     x += 1
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        for i in tracks:
+            executor.submit(convertsongsURL_HELPER,i)
+
     return (output,failed_links)
+
+def convertsongsURL_HELPER(trackname: str): #New function for parallel task
+    try:
+        videoResults = VideosSearch(trackname,limit=1)
+        output.append(videoResults.result()["result"][0]["link"])
+        print("Found Youtube link for", trackname)
+    except:
+        failed_links.append(trackname)
+        print("Did not find link for", trackname)
 
 def downloadTRACKS(spotifyURL: str,folder_path: str) -> list:
     '''input spotify playlist URL and folder_path, downloads tracks, returns failed songs'''
