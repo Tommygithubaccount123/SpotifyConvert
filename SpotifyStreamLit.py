@@ -4,16 +4,14 @@ import tkinter as tk
 from tkinter import filedialog
 import SpotifyPlaylist
 
-
-
 class spotifyScript():
     def __init__(self):
-        if ("folder_path" not in st.session_state):
+        if ("folder_path" not in st.session_state): 
             st.session_state["folder_path"] = ""
 
         if ("spotify_url" not in st.session_state):
             st.session_state["spotify_url"] = ""
-        self.folder_path = st.session_state["folder_path"]
+        self.folder_path = st.session_state["folder_path"]  #allows for not replace values after each rerun
         self.spotify_url = st.session_state["spotify_url"]
 
         st.title("Spotify Converter")
