@@ -1,4 +1,3 @@
-from matplotlib.pyplot import text
 import streamlit as st
 import tkinter as tk
 from tkinter import filedialog
