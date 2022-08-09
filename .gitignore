@@ -2,3 +2,5 @@ SpotifyCredentials.py
 .cache
 __pycache__
 my_env
+build
+dist
