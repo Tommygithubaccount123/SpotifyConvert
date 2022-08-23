@@ -4,3 +4,4 @@ __pycache__
 my_env
 build
 dist
+.streamlit
