@@ -3,6 +3,9 @@ import tkinter as tk
 from tkinter import filedialog
 import SpotifyPlaylist
 
+cl_id = st.secrets["client_id"]
+cl_secret = st.secrets["client_secret"]
+
 class spotifyScript():
     def __init__(self):
         if ("folder_path" not in st.session_state): 

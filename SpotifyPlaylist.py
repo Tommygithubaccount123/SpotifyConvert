@@ -1,10 +1,16 @@
-import SpotifyCredentials, spotipy, concurrent.futures, converter
+import spotipy, concurrent.futures, converter
 from spotipy.oauth2 import SpotifyClientCredentials
 from youtubesearchpython import VideosSearch
 
 #authenticate without user, pull credentials from other file
-credentials_manager = SpotifyClientCredentials(client_id=SpotifyCredentials.client_id,
-client_secret=SpotifyCredentials.client_secret)
+try:
+    import SpotifyCredentials
+    credentials_manager = SpotifyClientCredentials(client_id=SpotifyCredentials.client_id,
+    client_secret=SpotifyCredentials.client_secret)
+except:
+    import SpotifyStreamLit
+    credentials_manager = SpotifyClientCredentials(client_id=SpotifyStreamLit.cl_id,
+    client_secret=SpotifyStreamLit.cl_secret)
 
 #playlistURL = "https://open.spotify.com/playlist/37i9dQZF1DXdQP3bGyOAvs?si=dce5cfef7a964b17"
 #playlist_URI = playlistURL.split("/")[-1].split("?")[0]
