@@ -1,6 +1,4 @@
 spotipy==2.20.0
 pytube==12.1.0
 youtube-search-python==1.6.6
-SpotifyPlaylist.py
-SpotifyCredentials.py
-converter.py
+[-e] <github/repo/SpotifyConvert/SpotifyPlaylist.py>
