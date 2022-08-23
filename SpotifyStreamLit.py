@@ -1,5 +1,5 @@
 import streamlit as st
-import tkinter as tk
+# import tkinter as tk
 from tkinter import filedialog
 import SpotifyPlaylist
 import os
@@ -18,29 +18,39 @@ class spotifyScript():
         self.spotify_url = st.session_state["spotify_url"]
 
         st.title("Spotify Converter")
-        st.markdown("1. Input Spotify playlist URL\n2. Select folder download path\n3. Press Download")
+        st.markdown("1. Enter Spotify playlist URL\n2. Enter folder download path\n3. Press Download")
 
         text_input = st.text_input("Enter url")
         print("TEXT: "+text_input)
         st.session_state["spotify_url"] = text_input #take url
         self.spotify_url = text_input
 
-        folder_button = st.button("Select Folder")
-        download_button = st.button("Download")
-        if folder_button:
-            print("Folder pressed")
+        # folder_button = st.button("Select Folder")
+        folder_button = st.text_input("Enter Folder Location")
+        if (folder_button != "" and os.path.exists(folder_button)==False):
+            st.markdown("ERROR: Folder does not exist")
+            self.folder_path = ""
+        else:
+            st.session_state["folder_path"] = self.folder_path #take folder path
+            self.folder_path = folder_button
 
-            self.folder_path = self.browseFolder()
-            st.session_state["folder_path"] = self.folder_path
+        print("FOLDER: "+self.folder_path)
+
+        download_button = st.button("Download")
+        # if folder_button:
+        #     print("Folder pressed")
+
+        #     self.folder_path = self.browseFolder()
+        #     st.session_state["folder_path"] = self.folder_path
         if download_button:
             print("Download pressed")
             self.convert()
 
-    def browseFolder(self):
-        folder = tk.filedialog.askdirectory()
-        st.markdown("Download path: " + folder) 
-        print(folder)
-        return folder
+    # def browseFolder(self):
+    #     folder = tk.filedialog.askdirectory()
+    #     st.markdown("Download path: " + folder) 
+    #     print(folder)
+    #     return folder
 
     def convert(self):
         print(f"PATH: {self.folder_path}, URL: {self.spotify_url}")
