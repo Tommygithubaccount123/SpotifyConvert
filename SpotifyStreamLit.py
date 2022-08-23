@@ -7,10 +7,6 @@ import os
 cl_id = st.secrets["client_id"]
 cl_secret = st.secrets["client_secret"]
 
-if os.environ.get('DISPLAY','') == '':
-    print('no display found. Using :0.0')
-    os.environ.__setitem__('DISPLAY', ':0.0')
-
 class spotifyScript():
     def __init__(self):
         if ("folder_path" not in st.session_state): 
