@@ -1,0 +1,7 @@
+tkinter
+spotipy
+concurrent.futures
+SpotifyPlaylist
+youtubesearchpython
+spotipy.oauth2
+pytube
