@@ -27,12 +27,14 @@ class spotifyScript():
 
         # folder_button = st.button("Select Folder")
         folder_button = st.text_input("Enter Folder Location")
-        if (folder_button != "" and os.path.exists(folder_button)==False):
-            st.markdown("ERROR: Folder does not exist")
-            self.folder_path = ""
-        else:
-            st.session_state["folder_path"] = self.folder_path #take folder path
-            self.folder_path = folder_button
+        # if (folder_button != "" and os.path.exists(folder_button)==False):
+        #     st.markdown("ERROR: Folder does not exist")
+        #     self.folder_path = ""
+        # else:
+        #     st.session_state["folder_path"] = self.folder_path #take folder path
+        #     self.folder_path = folder_button
+        st.session_state["folder_path"] = self.folder_path #take folder path
+        self.folder_path = folder_button
 
         print("FOLDER: "+self.folder_path)
 
